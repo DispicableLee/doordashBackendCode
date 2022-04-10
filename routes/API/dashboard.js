@@ -269,8 +269,37 @@ router.put("/edit/restaurants/orders/:orderid", async (req,res)=>{
     }else{
         return res.status(400).send({})
     }
+})
 
+router.delete("/delete/restaurant/orders/:orderid", async(req,res)=>{
+    console.log("this is supposed to delete things");
+    const orderID = req.params.orderid;
+    const orderObjectID = ObjectID(orderID);
+    const order = await Order.findByIdAndDelete(orderObjectID);
+    if(order){
+        return res.status(200).send(order);
+    }else{
+        return res.status(404).send({});
+    }
+});
 
+router.get("/search/all/orders/:customeremail", async(req,res)=>{
+    const customerEmail = req.params.customeremail;
+    const orders = await Order.find({customer_email :customerEmail});
+    if(orders){
+        return res.status(200).send(orders)
+    }else{
+        return res.status(400).send({})
+    }
+})
+
+router.get("/search/restaurants/ratings", async (req,res) => {
+    const restaurantList = await Restaurant.find({rating: {$gte: 4.0}});
+    if (restaurantList.length > 0) {
+        return res.status(200).send(restaurantList)
+    } else {
+        return res.status(404).send({});
+    }
 })
 
 //.then new stuff

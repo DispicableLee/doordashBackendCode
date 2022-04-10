@@ -8,6 +8,7 @@ const RestaurantSchema = new Schema({
     email: String,
     about_description: String,
     wait_time: String,
+    rating: Number,
     availability: {
         monday: String,
         tuesday: String,
